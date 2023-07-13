@@ -18,6 +18,7 @@
 		FBA66D5D2A5D84A300542D2D /* ShortFormFeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D5C2A5D84A300542D2D /* ShortFormFeedTests.swift */; };
 		FBA66D672A5D84A300542D2D /* ShortFormFeedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D662A5D84A300542D2D /* ShortFormFeedUITests.swift */; };
 		FBA66D692A5D84A300542D2D /* ShortFormFeedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D682A5D84A300542D2D /* ShortFormFeedUITestsLaunchTests.swift */; };
+		FBA66D762A5FF6C700542D2D /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D752A5FF6C700542D2D /* EndPoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		FBA66D622A5D84A300542D2D /* ShortFormFeedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShortFormFeedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBA66D662A5D84A300542D2D /* ShortFormFeedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormFeedUITests.swift; sourceTree = "<group>"; };
 		FBA66D682A5D84A300542D2D /* ShortFormFeedUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormFeedUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FBA66D752A5FF6C700542D2D /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		FDB4A30096BDAC8DB7CB1EF7 /* Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; path = "Target Support Files/Pods-ShortFormFeed-ShortFormFeedUITests/Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +145,7 @@
 				FBA66D4E2A5D84A300542D2D /* Assets.xcassets */,
 				FBA66D502A5D84A300542D2D /* LaunchScreen.storyboard */,
 				FBA66D532A5D84A300542D2D /* Info.plist */,
+				FBA66D752A5FF6C700542D2D /* EndPoint.swift */,
 			);
 			path = ShortFormFeed;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 			files = (
 				FBA66D4A2A5D84A200542D2D /* ViewController.swift in Sources */,
 				FBA66D462A5D84A200542D2D /* AppDelegate.swift in Sources */,
+				FBA66D762A5FF6C700542D2D /* EndPoint.swift in Sources */,
 				FBA66D482A5D84A200542D2D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
