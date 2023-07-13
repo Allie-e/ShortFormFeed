@@ -19,6 +19,7 @@
 		FBA66D672A5D84A300542D2D /* ShortFormFeedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D662A5D84A300542D2D /* ShortFormFeedUITests.swift */; };
 		FBA66D692A5D84A300542D2D /* ShortFormFeedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D682A5D84A300542D2D /* ShortFormFeedUITestsLaunchTests.swift */; };
 		FBA66D762A5FF6C700542D2D /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D752A5FF6C700542D2D /* EndPoint.swift */; };
+		FBA66D782A5FFB2B00542D2D /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D772A5FFB2B00542D2D /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		FBA66D662A5D84A300542D2D /* ShortFormFeedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormFeedUITests.swift; sourceTree = "<group>"; };
 		FBA66D682A5D84A300542D2D /* ShortFormFeedUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormFeedUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FBA66D752A5FF6C700542D2D /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
+		FBA66D772A5FFB2B00542D2D /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		FDB4A30096BDAC8DB7CB1EF7 /* Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; path = "Target Support Files/Pods-ShortFormFeed-ShortFormFeedUITests/Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,6 +148,7 @@
 				FBA66D502A5D84A300542D2D /* LaunchScreen.storyboard */,
 				FBA66D532A5D84A300542D2D /* Info.plist */,
 				FBA66D752A5FF6C700542D2D /* EndPoint.swift */,
+				FBA66D772A5FFB2B00542D2D /* NetworkError.swift */,
 			);
 			path = ShortFormFeed;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 				FBA66D462A5D84A200542D2D /* AppDelegate.swift in Sources */,
 				FBA66D762A5FF6C700542D2D /* EndPoint.swift in Sources */,
 				FBA66D482A5D84A200542D2D /* SceneDelegate.swift in Sources */,
+				FBA66D782A5FFB2B00542D2D /* NetworkError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
