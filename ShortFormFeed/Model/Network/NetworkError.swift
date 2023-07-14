@@ -8,13 +8,13 @@
 import Foundation
 
 enum NetworkError: Error {
-    case invalidEndPoint
+    case invalidURL
     case invalidRequest
 
     var description: String {
         switch self {
-        case .invalidEndPoint:
-            return "ERROR: Invalid EndPoint"
+        case .invalidURL:
+            return "ERROR: Invalid URL"
         case .invalidRequest:
             return "ERROR: Invalid Request"
         }
