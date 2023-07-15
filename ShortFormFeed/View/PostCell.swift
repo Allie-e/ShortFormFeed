@@ -11,6 +11,7 @@ import AVKit
 
 final class PostCell: UICollectionViewCell {
     static let identifier = "PostCell"
+    var videoView: VideoPlayerView?
     
     private let soundButton: UIButton = {
         let button = UIButton()
@@ -84,12 +85,21 @@ final class PostCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell() {
+    func setupCell(_ urlStr: String) {
+        self.videoView = VideoPlayerView(frame: .zero, urlStr: urlStr)
+        
         likeLabel.text = "123"
         followLabel.text = "12K"
     }
     
     private func setupLayout() {
+        guard let videoView = videoView else { return }
+        contentView.addSubview(videoView)
+        
+        videoView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         [soundButton, likeButton, likeLabel, followButton, followLabel, shareButton].forEach { view in
             contentView.addSubview(view)
         }

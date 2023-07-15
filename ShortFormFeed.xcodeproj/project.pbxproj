@@ -26,6 +26,7 @@
 		FBA66D802A618BF800542D2D /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D7F2A618BF800542D2D /* Post.swift */; };
 		FBA66D872A618F4500542D2D /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D862A618F4500542D2D /* FeedAPI.swift */; };
 		FBA66D892A62C63B00542D2D /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D882A62C63B00542D2D /* PostCell.swift */; };
+		FBA66D8B2A62DCDA00542D2D /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D8A2A62DCDA00542D2D /* VideoPlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		FBA66D7F2A618BF800542D2D /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		FBA66D862A618F4500542D2D /* FeedAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAPI.swift; sourceTree = "<group>"; };
 		FBA66D882A62C63B00542D2D /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
+		FBA66D8A2A62DCDA00542D2D /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		FDB4A30096BDAC8DB7CB1EF7 /* Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; path = "Target Support Files/Pods-ShortFormFeed-ShortFormFeedUITests/Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,6 +226,7 @@
 			children = (
 				FBA66D492A5D84A200542D2D /* ViewController.swift */,
 				FBA66D882A62C63B00542D2D /* PostCell.swift */,
+				FBA66D8A2A62DCDA00542D2D /* VideoPlayerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				FBA66D892A62C63B00542D2D /* PostCell.swift in Sources */,
 				FBA66D7E2A618BE700542D2D /* User.swift in Sources */,
 				FBA66D7A2A618BB700542D2D /* Content.swift in Sources */,
+				FBA66D8B2A62DCDA00542D2D /* VideoPlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
