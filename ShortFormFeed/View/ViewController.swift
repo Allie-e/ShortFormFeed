@@ -67,6 +67,7 @@ class ViewController: UIViewController {
         
         collectionView.decelerationRate = .fast
         collectionView.contentInsetAdjustmentBehavior = .never
+        collectionView.isPagingEnabled = true
     }
     
     private func configureDataSource() {

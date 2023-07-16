@@ -35,7 +35,6 @@ class VideoPlayerView: UIView {
 
         playerLooper = AVPlayerLooper(player: queuePlayer!, templateItem: playItem)
         queuePlayer?.play()
-
     }
 
     required init?(coder: NSCoder) {
