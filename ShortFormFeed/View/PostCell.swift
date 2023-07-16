@@ -78,7 +78,6 @@ final class PostCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -90,6 +89,7 @@ final class PostCell: UICollectionViewCell {
         
         likeLabel.text = "123"
         followLabel.text = "12K"
+        setupLayout()
     }
     
     private func setupLayout() {
