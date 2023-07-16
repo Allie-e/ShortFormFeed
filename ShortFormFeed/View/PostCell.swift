@@ -75,6 +75,30 @@ final class PostCell: UICollectionViewCell {
         return button
     }()
     
+    private let userImgageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
+        
+        return imageView
+    }()
+    
+    private let userNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textColor = .white
+        
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -89,6 +113,9 @@ final class PostCell: UICollectionViewCell {
         
         likeLabel.text = post.likeCount.description
         followLabel.text = post.user.followCount.description
+        userImgageView.setImage(with: post.user.profileThumbnailURL)
+        userNameLabel.text = post.user.displayName
+        descriptionLabel.text = post.description
         setupLayout()
     }
     
@@ -100,12 +127,12 @@ final class PostCell: UICollectionViewCell {
             make.edges.equalToSuperview()
         }
         
-        [soundButton, likeButton, likeLabel, followButton, followLabel, shareButton].forEach { view in
+        [soundButton, likeButton, likeLabel, followButton, followLabel, shareButton, userImgageView, userNameLabel, descriptionLabel].forEach { view in
             contentView.addSubview(view)
         }
         
         soundButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(30)
+            make.top.equalToSuperview().offset(50)
             make.trailing.equalToSuperview().offset(-20)
             make.width.height.equalTo(35)
         }
@@ -135,9 +162,27 @@ final class PostCell: UICollectionViewCell {
         }
         
         shareButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().offset(-50)
+            make.bottom.equalTo(userImgageView.snp.top).offset(-10)
             make.trailing.equalToSuperview().offset(-20)
             make.width.height.equalTo(35)
+        }
+        
+        userImgageView.snp.makeConstraints { make in
+            make.bottom.equalTo(descriptionLabel.snp.top).offset(-10)
+            make.leading.equalToSuperview().offset(20)
+            make.width.height.equalTo(40)
+        }
+        
+        userNameLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(descriptionLabel.snp.top).offset(-10)
+            make.leading.equalTo(userImgageView.snp.trailing).offset(10)
+            make.centerY.equalTo(userImgageView.snp.centerY)
+        }
+        
+        descriptionLabel.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().offset(-20)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-40)
         }
     }
 }

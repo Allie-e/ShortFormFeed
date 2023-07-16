@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 5
+        layout.minimumLineSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -60,10 +60,13 @@ class ViewController: UIViewController {
     
     private func setupCollectionView() {
         self.view.addSubview(collectionView)
+        
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        
         collectionView.decelerationRate = .fast
+        collectionView.contentInsetAdjustmentBehavior = .never
     }
     
     private func configureDataSource() {
