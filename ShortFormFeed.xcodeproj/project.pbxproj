@@ -29,6 +29,7 @@
 		FBA66D8B2A62DCDA00542D2D /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D8A2A62DCDA00542D2D /* VideoPlayerView.swift */; };
 		FBA66D902A641C9D00542D2D /* CellReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D8F2A641C9D00542D2D /* CellReusable.swift */; };
 		FBA66D922A641CDB00542D2D /* ViewModelDescribing.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D912A641CDB00542D2D /* ViewModelDescribing.swift */; };
+		FBA66D952A64291900542D2D /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D942A64291900542D2D /* PostViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		FBA66D8A2A62DCDA00542D2D /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		FBA66D8F2A641C9D00542D2D /* CellReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellReusable.swift; sourceTree = "<group>"; };
 		FBA66D912A641CDB00542D2D /* ViewModelDescribing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelDescribing.swift; sourceTree = "<group>"; };
+		FBA66D942A64291900542D2D /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		FDB4A30096BDAC8DB7CB1EF7 /* Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; path = "Target Support Files/Pods-ShortFormFeed-ShortFormFeedUITests/Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,6 +161,7 @@
 		FBA66D442A5D84A200542D2D /* ShortFormFeed */ = {
 			isa = PBXGroup;
 			children = (
+				FBA66D932A64290A00542D2D /* ViewModel */,
 				FBA66D8E2A641C8800542D2D /* Protocol */,
 				FBA66D852A618EB000542D2D /* View */,
 				FBA66D832A618E7E00542D2D /* App */,
@@ -243,6 +246,14 @@
 				FBA66D912A641CDB00542D2D /* ViewModelDescribing.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		FBA66D932A64290A00542D2D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FBA66D942A64291900542D2D /* PostViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -483,6 +494,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBA66D952A64291900542D2D /* PostViewModel.swift in Sources */,
 				FBA66D902A641C9D00542D2D /* CellReusable.swift in Sources */,
 				FBA66D4A2A5D84A200542D2D /* ViewController.swift in Sources */,
 				FBA66D462A5D84A200542D2D /* AppDelegate.swift in Sources */,

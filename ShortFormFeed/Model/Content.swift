@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Content: Decodable {
+struct Content: Decodable, Hashable {
     let contentURL: String
     let type: TypeEnum
 

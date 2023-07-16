@@ -10,7 +10,7 @@ import SnapKit
 import AVKit
 
 final class PostCell: UICollectionViewCell {
-    static let identifier = "PostCell"
+    static let identifier = String(describing: PostCell.self)
     var videoView: VideoPlayerView?
     
     private let soundButton: UIButton = {
@@ -84,11 +84,11 @@ final class PostCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(_ urlStr: String) {
-        self.videoView = VideoPlayerView(frame: .zero, urlStr: urlStr)
+    func setupCell(with post: Post) {
+        self.videoView = VideoPlayerView(frame: .zero, urlStr: post.contents[0].contentURL)
         
-        likeLabel.text = "123"
-        followLabel.text = "12K"
+        likeLabel.text = post.likeCount.description
+        followLabel.text = post.user.followCount.description
         setupLayout()
     }
     

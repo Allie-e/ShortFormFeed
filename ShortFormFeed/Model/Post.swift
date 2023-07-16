@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Post: Decodable {
+struct Post: Decodable, Hashable {
     let contents: [Content]
     let description: String
     let id: String

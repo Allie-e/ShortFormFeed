@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Decodable {
+struct User: Decodable, Hashable {
     let displayName: String
     let followCount: Int
     let profileThumbnailURL: String
