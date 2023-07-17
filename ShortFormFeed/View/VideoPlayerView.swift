@@ -22,7 +22,7 @@ class VideoPlayerView: UIView {
         self.urlStr = urlStr
         super.init(frame: frame)
 
-        let videoURL = URL(string: "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4")!
+        let videoURL = URL(string: urlStr)!
         let playItem = AVPlayerItem(url: videoURL)
 
         self.queuePlayer = AVQueuePlayer(playerItem: playItem)

@@ -57,7 +57,25 @@ class ViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        collectionView.rx.willDisplayCell
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { cell, indexPath in
+                if let cell = cell as? PostCell {
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        collectionView.rx.didEndDisplayingCell
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { cell, indexPath in
+                if let cell = cell as? PostCell {
+                    cell.videoView?.cleanup()
+                }
+            })
+            .disposed(by: disposeBag)
+        
         collectionView.rx.itemSelected
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { owner, indexPath in
                 guard let cell = owner.collectionView.cellForItem(at: indexPath) as? PostCell else { return }
@@ -65,7 +83,7 @@ class ViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-
+    
     private func setupCollectionView() {
         self.view.addSubview(collectionView)
         
