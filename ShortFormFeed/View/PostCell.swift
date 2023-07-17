@@ -119,6 +119,13 @@ final class PostCell: UICollectionViewCell {
         setupLayout()
     }
     
+    func soundOff() {
+        videoView?.queuePlayer?.volume = 0
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
+        let image = UIImage(systemName: "speaker.slash.fill", withConfiguration: imageConfig)
+        soundButton.setImage(image, for: .normal)
+    }
+    
     private func setupLayout() {
         guard let videoView = videoView else { return }
         contentView.addSubview(videoView)

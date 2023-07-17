@@ -56,8 +56,16 @@ class ViewController: UIViewController {
                 print(feed)
             })
             .disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected
+            .withUnretained(self)
+            .subscribe(onNext: { owner, indexPath in
+                guard let cell = owner.collectionView.cellForItem(at: indexPath) as? PostCell else { return }
+                cell.soundOff()
+            })
+            .disposed(by: disposeBag)
     }
-    
+
     private func setupCollectionView() {
         self.view.addSubview(collectionView)
         
