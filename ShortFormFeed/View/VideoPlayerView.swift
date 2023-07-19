@@ -8,16 +8,14 @@
 import UIKit
 import AVKit
 
-class VideoPlayerView: UIView {
-
-    // 재생될때 레이어 잡아주는 객체
+final class VideoPlayerView: UIView {
+    // MARK: - Properties
     var playerLayer: AVPlayerLayer?
-    // 반복재생과 관련된 객체
     var playerLooper: AVPlayerLooper?
-    // 먼저들어온 영상 나중에 재생
     var queuePlayer: AVQueuePlayer?
     var urlStr: String
 
+    // MARK: - Initializer
     init(frame: CGRect, urlStr: String) {
         self.urlStr = urlStr
         super.init(frame: frame)
@@ -41,15 +39,15 @@ class VideoPlayerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // 메모리 관리를 위함
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        playerLayer?.frame = bounds
+    }
+    
+    // MARK: - Methods
     func cleanup() {
         queuePlayer?.pause()
         queuePlayer?.removeAllItems()
         queuePlayer = nil
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        playerLayer?.frame = bounds
     }
 }

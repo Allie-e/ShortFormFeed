@@ -10,6 +10,7 @@ import SnapKit
 import AVKit
 
 final class PostCell: UICollectionViewCell {
+    // MARK: - Properties
     static let identifier = String(describing: PostCell.self)
     var videoView: VideoPlayerView?
     
@@ -100,6 +101,7 @@ final class PostCell: UICollectionViewCell {
         return label
     }()
     
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -108,6 +110,7 @@ final class PostCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Methods
     func setupCell(with post: Post) {
         self.videoView = VideoPlayerView(frame: .zero, urlStr: post.contents[0].contentURL)
         

@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         case post(Post)
     }
     
+    // MARK: - Properties
     let viewModel = PostViewModel()
     private let disposeBag: DisposeBag = .init()
     private var dataSource: DiffableDataSource?
@@ -44,6 +45,7 @@ class ViewController: UIViewController {
         bind()
     }
     
+    // MARK: - Methods
     private func bind() {
         let input = PostViewModel.Input(viewDidLoadObservable: .just(Void()))
         let output = viewModel.transform(input)
