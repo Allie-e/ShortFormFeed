@@ -114,8 +114,8 @@ final class PostCell: UICollectionViewCell {
     func setupCell(with post: Post) {
         self.videoView = VideoPlayerView(frame: .zero, urlStr: post.contents[0].contentURL)
         
-        likeLabel.text = post.likeCount.description
-        followLabel.text = post.user.followCount.description
+        likeLabel.text = post.likeCount.toK()
+        followLabel.text = post.user.followCount.toK()
         userImgageView.setImage(with: post.user.profileThumbnailURL)
         userNameLabel.text = post.user.displayName
         descriptionLabel.text = post.description

@@ -31,6 +31,7 @@
 		FBA66D922A641CDB00542D2D /* ViewModelDescribing.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D912A641CDB00542D2D /* ViewModelDescribing.swift */; };
 		FBA66D952A64291900542D2D /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D942A64291900542D2D /* PostViewModel.swift */; };
 		FBA66D982A642CA100542D2D /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D972A642CA100542D2D /* UIImageView+extension.swift */; };
+		FBA66D9A2A6849F300542D2D /* Int+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D992A6849F300542D2D /* Int+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		FBA66D912A641CDB00542D2D /* ViewModelDescribing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelDescribing.swift; sourceTree = "<group>"; };
 		FBA66D942A64291900542D2D /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		FBA66D972A642CA100542D2D /* UIImageView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
+		FBA66D992A6849F300542D2D /* Int+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extension.swift"; sourceTree = "<group>"; };
 		FDB4A30096BDAC8DB7CB1EF7 /* Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; path = "Target Support Files/Pods-ShortFormFeed-ShortFormFeedUITests/Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -263,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				FBA66D972A642CA100542D2D /* UIImageView+extension.swift */,
+				FBA66D992A6849F300542D2D /* Int+extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				FBA66D922A641CDB00542D2D /* ViewModelDescribing.swift in Sources */,
 				FBA66D482A5D84A200542D2D /* SceneDelegate.swift in Sources */,
 				FBA66D782A5FFB2B00542D2D /* NetworkError.swift in Sources */,
+				FBA66D9A2A6849F300542D2D /* Int+extension.swift in Sources */,
 				FBA66D982A642CA100542D2D /* UIImageView+extension.swift in Sources */,
 				FBA66D802A618BF800542D2D /* Post.swift in Sources */,
 				FBA66D892A62C63B00542D2D /* PostCell.swift in Sources */,
