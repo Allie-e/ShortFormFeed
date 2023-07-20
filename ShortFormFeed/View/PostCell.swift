@@ -110,7 +110,7 @@ final class PostCell: UICollectionViewCell {
     func setupCell(with post: Post) {
         switch post.contents[0].type {
         case .video:
-            self.videoView = VideoPlayerView(frame: .zero, urlStr: post.contents[0].contentURL)
+            self.videoView = VideoPlayerView(frame: .zero, urlString: post.contents[0].contentURL)
             setupLayout(with: .video)
         case .image:
             self.imageView.setImage(with: post.contents[0].contentURL)

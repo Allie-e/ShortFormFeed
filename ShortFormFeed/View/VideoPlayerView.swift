@@ -13,7 +13,7 @@ final class VideoPlayerView: UIView {
     var playerLayer: AVPlayerLayer?
     var playerLooper: AVPlayerLooper?
     var queuePlayer: AVQueuePlayer?
-    var urlStr: String
+    var urlString: String
 
     private let soundButton: UIButton = {
         let button = UIButton()
@@ -27,11 +27,11 @@ final class VideoPlayerView: UIView {
     }()
     
     // MARK: - Initializer
-    init(frame: CGRect, urlStr: String) {
-        self.urlStr = urlStr
+    init(frame: CGRect, urlString: String) {
+        self.urlString = urlString
         super.init(frame: frame)
 
-        let videoURL = URL(string: urlStr)!
+        let videoURL = URL(string: urlString)!
         let playItem = AVPlayerItem(url: videoURL)
 
         self.queuePlayer = AVQueuePlayer(playerItem: playItem)

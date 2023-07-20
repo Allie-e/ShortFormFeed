@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SnapKit
 
 class ViewController: UIViewController {
     private typealias DiffableDataSource = UICollectionViewDiffableDataSource<Section, FeedItem>
@@ -26,7 +27,7 @@ class ViewController: UIViewController {
     private var dataSource: DiffableDataSource?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, FeedItem>()
     private var nowPage = 0
-
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -63,6 +64,7 @@ class ViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { cell, indexPath in
                 if let cell = cell as? PostCell {
+                    cell.videoView?.queuePlayer?.play()
                 }
             })
             .disposed(by: disposeBag)
@@ -71,7 +73,7 @@ class ViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { cell, indexPath in
                 if let cell = cell as? PostCell {
-                    cell.videoView?.cleanup()
+                    cell.videoView?.queuePlayer?.pause()
                 }
             })
             .disposed(by: disposeBag)
@@ -90,7 +92,7 @@ class ViewController: UIViewController {
         self.view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.bottom.leading.trailing.equalToSuperview()
         }
         
         collectionView.decelerationRate = .fast
