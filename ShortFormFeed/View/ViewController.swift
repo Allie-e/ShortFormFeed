@@ -6,11 +6,12 @@
 //
 
 import UIKit
+
 import RxSwift
 import RxCocoa
 import SnapKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     private typealias DiffableDataSource = UICollectionViewDiffableDataSource<Section, FeedItem>
     
     private enum Section {
@@ -39,6 +40,15 @@ class ViewController: UIViewController {
         return collectionView
     }()
     
+    private let refreshButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("새로고침", for: .normal)
+        button.isHidden = true
+        button.backgroundColor = .blue
+        
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
@@ -48,20 +58,31 @@ class ViewController: UIViewController {
     
     // MARK: - Methods
     private func bind() {
-        let input = PostViewModel.Input(viewDidLoadObservable: .just(Void()))
+        let input = PostViewModel.Input(
+            viewDidLoadObservable: .just(Void()),
+            refreshObservable: refreshButton.rx.tap.asObservable()
+        )
         let output = viewModel.transform(input)
         
         output.loadPostObservable
+            .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .subscribe(onNext: { owner, feed in
-                guard let feed = feed else { return }
                 owner.applySnapshot(with: feed.posts)
-                print(feed)
+                owner.refreshButton.isHidden = true
+            })
+            .disposed(by: disposeBag)
+        
+        output.errorObservable
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
+            .subscribe(onNext: { (owner, _) in
+                owner.refreshButton.isHidden = false
             })
             .disposed(by: disposeBag)
         
         collectionView.rx.willDisplayCell
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { cell, indexPath in
                 if let cell = cell as? PostCell {
                     cell.videoView?.queuePlayer?.play()
@@ -70,7 +91,7 @@ class ViewController: UIViewController {
             .disposed(by: disposeBag)
         
         collectionView.rx.didEndDisplayingCell
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { cell, indexPath in
                 if let cell = cell as? PostCell {
                     cell.videoView?.queuePlayer?.pause()
@@ -79,7 +100,7 @@ class ViewController: UIViewController {
             .disposed(by: disposeBag)
         
         collectionView.rx.itemSelected
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .subscribe(onNext: { owner, indexPath in
                 guard let cell = owner.collectionView.cellForItem(at: indexPath) as? PostCell else { return }
@@ -98,6 +119,12 @@ class ViewController: UIViewController {
         collectionView.decelerationRate = .fast
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.isPagingEnabled = true
+        
+        self.view.addSubview(refreshButton)
+        refreshButton.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(100)
+        }
     }
     
     private func configureDataSource() {

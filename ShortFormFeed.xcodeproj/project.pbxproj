@@ -32,6 +32,7 @@
 		FBA66D952A64291900542D2D /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D942A64291900542D2D /* PostViewModel.swift */; };
 		FBA66D982A642CA100542D2D /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D972A642CA100542D2D /* UIImageView+extension.swift */; };
 		FBA66D9A2A6849F300542D2D /* Int+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D992A6849F300542D2D /* Int+extension.swift */; };
+		FBA66D9C2A69716700542D2D /* Observable+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D9B2A69716700542D2D /* Observable+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		FBA66D942A64291900542D2D /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		FBA66D972A642CA100542D2D /* UIImageView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 		FBA66D992A6849F300542D2D /* Int+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extension.swift"; sourceTree = "<group>"; };
+		FBA66D9B2A69716700542D2D /* Observable+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+extension.swift"; sourceTree = "<group>"; };
 		FDB4A30096BDAC8DB7CB1EF7 /* Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; path = "Target Support Files/Pods-ShortFormFeed-ShortFormFeedUITests/Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -266,6 +268,7 @@
 			children = (
 				FBA66D972A642CA100542D2D /* UIImageView+extension.swift */,
 				FBA66D992A6849F300542D2D /* Int+extension.swift */,
+				FBA66D9B2A69716700542D2D /* Observable+extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBA66D9C2A69716700542D2D /* Observable+extension.swift in Sources */,
 				FBA66D952A64291900542D2D /* PostViewModel.swift in Sources */,
 				FBA66D902A641C9D00542D2D /* CellReusable.swift in Sources */,
 				FBA66D4A2A5D84A200542D2D /* ViewController.swift in Sources */,
