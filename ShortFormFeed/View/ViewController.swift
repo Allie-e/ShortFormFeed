@@ -81,7 +81,7 @@ class ViewController: UIViewController {
             .withUnretained(self)
             .subscribe(onNext: { owner, indexPath in
                 guard let cell = owner.collectionView.cellForItem(at: indexPath) as? PostCell else { return }
-                cell.manageSound()
+                cell.videoView?.manageSound()
             })
             .disposed(by: disposeBag)
     }

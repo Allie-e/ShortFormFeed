@@ -14,15 +14,11 @@ final class PostCell: UICollectionViewCell {
     static let identifier = String(describing: PostCell.self)
     var videoView: VideoPlayerView?
     
-    private let soundButton: UIButton = {
-        let button = UIButton()
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
-        let image = UIImage(systemName: "speaker.wave.2.fill", withConfiguration: imageConfig)
-        button.setImage(image, for: .normal)
-        button.tintColor = .white
-        button.imageView?.contentMode = .scaleAspectFit
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         
-        return button
+        return imageView
     }()
     
     private let likeButton: UIButton = {
@@ -112,46 +108,39 @@ final class PostCell: UICollectionViewCell {
     
     // MARK: - Methods
     func setupCell(with post: Post) {
-        self.videoView = VideoPlayerView(frame: .zero, urlStr: post.contents[0].contentURL)
+        switch post.contents[0].type {
+        case .video:
+            self.videoView = VideoPlayerView(frame: .zero, urlStr: post.contents[0].contentURL)
+            setupLayout(with: .video)
+        case .image:
+            self.imageView.setImage(with: post.contents[0].contentURL)
+            setupLayout(with: .image)
+        }
         
         likeLabel.text = post.likeCount.toK()
         followLabel.text = post.user.followCount.toK()
         userImgageView.setImage(with: post.user.profileThumbnailURL)
         userNameLabel.text = post.user.displayName
         descriptionLabel.text = post.description
-        setupLayout()
-    }
-    
-    func manageSound() {
-        if videoView?.queuePlayer?.volume != 0 {
-            videoView?.queuePlayer?.volume = 0
-            let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
-            let image = UIImage(systemName: "speaker.slash.fill", withConfiguration: imageConfig)
-            soundButton.setImage(image, for: .normal)
-        } else {
-            videoView?.queuePlayer?.volume = 1
-            let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
-            let image = UIImage(systemName: "speaker.wave.2.fill", withConfiguration: imageConfig)
-            soundButton.setImage(image, for: .normal)
-        }
     }
         
-    private func setupLayout() {
-        guard let videoView = videoView else { return }
-        contentView.addSubview(videoView)
-        
-        videoView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+    private func setupLayout(with type: TypeEnum) {
+        switch type {
+        case .video:
+            guard let videoView = videoView else { return }
+            contentView.addSubview(videoView)
+            videoView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        case .image:
+            contentView.addSubview(imageView)
+            imageView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
         }
         
-        [soundButton, likeButton, likeLabel, followButton, followLabel, shareButton, userImgageView, userNameLabel, descriptionLabel].forEach { view in
+        [likeButton, likeLabel, followButton, followLabel, shareButton, userImgageView, userNameLabel, descriptionLabel].forEach { view in
             contentView.addSubview(view)
-        }
-        
-        soundButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(50)
-            make.trailing.equalToSuperview().offset(-20)
-            make.width.height.equalTo(35)
         }
         
         likeButton.snp.makeConstraints { make in

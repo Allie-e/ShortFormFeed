@@ -15,6 +15,17 @@ final class VideoPlayerView: UIView {
     var queuePlayer: AVQueuePlayer?
     var urlStr: String
 
+    private let soundButton: UIButton = {
+        let button = UIButton()
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
+        let image = UIImage(systemName: "speaker.wave.2.fill", withConfiguration: imageConfig)
+        button.setImage(image, for: .normal)
+        button.tintColor = .white
+        button.imageView?.contentMode = .scaleAspectFit
+        
+        return button
+    }()
+    
     // MARK: - Initializer
     init(frame: CGRect, urlStr: String) {
         self.urlStr = urlStr
@@ -32,6 +43,7 @@ final class VideoPlayerView: UIView {
         self.layer.addSublayer(playerLayer!)
 
         playerLooper = AVPlayerLooper(player: queuePlayer!, templateItem: playItem)
+        setupLayout()
         queuePlayer?.play()
     }
 
@@ -49,5 +61,29 @@ final class VideoPlayerView: UIView {
         queuePlayer?.pause()
         queuePlayer?.removeAllItems()
         queuePlayer = nil
+    }
+    
+    func manageSound() {
+        if queuePlayer?.volume != 0 {
+            queuePlayer?.volume = 0
+            let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
+            let image = UIImage(systemName: "speaker.slash.fill", withConfiguration: imageConfig)
+            soundButton.setImage(image, for: .normal)
+        } else {
+            queuePlayer?.volume = 1
+            let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
+            let image = UIImage(systemName: "speaker.wave.2.fill", withConfiguration: imageConfig)
+            soundButton.setImage(image, for: .normal)
+        }
+    }
+    
+    private func setupLayout() {
+        addSubview(soundButton)
+        
+        soundButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(50)
+            make.trailing.equalToSuperview().offset(-20)
+            make.width.height.equalTo(35)
+        }
     }
 }
