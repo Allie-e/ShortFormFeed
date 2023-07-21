@@ -10,6 +10,7 @@ import Foundation
 enum NetworkError: Error {
     case invalidURL
     case invalidRequest
+    case pagenationError
 
     var description: String {
         switch self {
@@ -17,6 +18,8 @@ enum NetworkError: Error {
             return "ERROR: Invalid URL"
         case .invalidRequest:
             return "ERROR: Invalid Request"
+        case .pagenationError:
+            return "ERROR: Pagenation Error"
         }
     }
 }

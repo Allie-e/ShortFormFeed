@@ -58,17 +58,31 @@ final class ViewController: UIViewController {
     
     // MARK: - Methods
     private func bind() {
+        let pagenationObservable = collectionView.rx.didEndDisplayingCell
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
+            .map { owner, args -> Void? in // args.0 == cell, args.1 == indexPath
+                let currentCellIndex = CGFloat(args.at.row + 1)
+                let cellHeight = args.cell.frame.height
+                if (owner.collectionView.contentSize.height - owner.collectionView.frame.height) == currentCellIndex * cellHeight {
+                    return Void()
+                }
+                return nil
+            }
+            .filterNil()
+        
         let input = PostViewModel.Input(
             viewDidLoadObservable: .just(Void()),
-            refreshObservable: refreshButton.rx.tap.asObservable()
+            refreshObservable: refreshButton.rx.tap.asObservable(),
+            pagenationObservable: pagenationObservable
         )
         let output = viewModel.transform(input)
         
         output.loadPostObservable
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
-            .subscribe(onNext: { owner, feed in
-                owner.applySnapshot(with: feed.posts)
+            .subscribe(onNext: { owner, posts in
+                owner.applySnapshot(with: posts)
                 owner.refreshButton.isHidden = true
             })
             .disposed(by: disposeBag)
@@ -76,8 +90,14 @@ final class ViewController: UIViewController {
         output.errorObservable
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
-            .subscribe(onNext: { (owner, _) in
-                owner.refreshButton.isHidden = false
+            .subscribe(onNext: { (owner, error) in
+                if let error = error as? NetworkError,
+                   error == .pagenationError
+                {
+                    owner.showToast(message: "다음 피드를 불러올 수 없습니다./n 잠시후 다시 시도해주세요.", font: .preferredFont(forTextStyle: .body)) // toast
+                } else {
+                    owner.refreshButton.isHidden = false
+                }
             })
             .disposed(by: disposeBag)
         
@@ -107,6 +127,24 @@ final class ViewController: UIViewController {
                 cell.videoView?.manageSound()
             })
             .disposed(by: disposeBag)
+    }
+    
+    func showToast(message : String, font: UIFont) {
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 150, height: 35))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
     }
     
     private func setupCollectionView() {

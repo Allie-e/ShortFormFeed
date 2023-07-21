@@ -11,13 +11,13 @@ import Alamofire
 import RxSwift
 
 final class FeedAPI {
-    func getPost(page: Int) -> Observable<Feed?> {
+    func getPost(page: Int) -> Observable<[Post]?> {
         let url = EndPoint.page(page).url
         let posts = fetch(with: url)
-            .map { data -> Feed? in
+            .map { data -> [Post]? in
                 let decodedData = try? JSONDecoder().decode(Feed.self, from: data)
                 
-                return decodedData
+                return decodedData?.posts
             }
         
         return posts
