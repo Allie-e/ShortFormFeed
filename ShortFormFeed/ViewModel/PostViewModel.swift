@@ -104,7 +104,7 @@ final class PostViewModel: ViewModelDescribing {
         
         return Output(
             loadPostObservable: post,
-            errorObservable: .just(NetworkError.pagenationError) // error
+            errorObservable: error // error
         )
     }
     

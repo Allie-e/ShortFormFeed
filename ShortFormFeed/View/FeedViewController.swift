@@ -185,7 +185,7 @@ final class FeedViewController: UIViewController {
     private func configureDataSource() {
         collectionView.register(PostCell.self)
         
-        dataSource = DiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
+        dataSource = DiffableDataSource(collectionView: collectionView, cellProvider: { [weak self] collectionView, indexPath, item in
             switch item {
             case .post(let post):
                 let cell = collectionView.dequeueReusableCell(PostCell.self, for: indexPath)
