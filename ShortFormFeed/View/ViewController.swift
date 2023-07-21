@@ -62,8 +62,12 @@ final class ViewController: UIViewController {
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .map { owner, args -> Void? in // args.0 == cell, args.1 == indexPath
-                let currentCellIndex = CGFloat(args.at.row + 1)
-                let cellHeight = args.cell.frame.height
+                let currentCellIndex = CGFloat(args.at.row + 1) // 0부터 시작하니까 1 더해줌 (이전 셀)
+                let cellHeight = args.cell.frame.height // 셀 높이
+                
+                // 전체 500 없어진거 400
+                // contentsOffset = 400
+                // 400을 구하는 과정
                 if (owner.collectionView.contentSize.height - owner.collectionView.frame.height) == currentCellIndex * cellHeight {
                     return Void()
                 }
@@ -98,6 +102,19 @@ final class ViewController: UIViewController {
                 } else {
                     owner.refreshButton.isHidden = false
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        collectionView.rx.contentOffset
+            .observe(on: MainScheduler.asyncInstance)
+            .withUnretained(self)
+            .subscribe(onNext: { owner, offset in
+                let cellHeight = UIScreen.main.bounds.height
+                // print(offset.y / cellHeight)
+                let row = Int(offset.y / cellHeight)
+                let alpha = (offset.y / cellHeight) - CGFloat(row)
+                let cell = owner.collectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? PostCell
+                cell?.setBackgroundOpacity(with: Float(1 - alpha))
             })
             .disposed(by: disposeBag)
         

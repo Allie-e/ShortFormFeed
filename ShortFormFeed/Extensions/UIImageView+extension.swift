@@ -28,7 +28,8 @@ extension UIImageView {
                   let imageData = try? Data(contentsOf: imageURL),
                   let image = UIImage(data: imageData) else {
                 DispatchQueue.main.async { [weak self] in
-                    self?.image = UIImage(named: "noimg")
+                    // 실패했을때 에러를 던져서 다시시도 버튼이 보이게
+                    self?.image = UIImage()
                 }
                 return
             }

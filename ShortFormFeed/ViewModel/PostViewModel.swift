@@ -32,6 +32,8 @@ final class PostViewModel: ViewModelDescribing {
         )
             .withUnretained(self)
             .flatMap { (owner, _) -> Observable<Result<[Post]?, Error>> in
+                // 페이지네이션 실패하면 다시 처음 페이지 보여줘야하니까..
+                owner.pageIndex = 0
                 return owner.fetchPost(with: owner.pageIndex).asResult()
             }
             .share()

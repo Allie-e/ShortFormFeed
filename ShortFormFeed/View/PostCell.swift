@@ -14,6 +14,7 @@ final class PostCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = String(describing: PostCell.self)
     var videoView: VideoPlayerView?
+    let wrapperView = UIView()
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -94,6 +95,7 @@ final class PostCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .white
+        label.numberOfLines = 2
         
         return label
     }()
@@ -124,6 +126,10 @@ final class PostCell: UICollectionViewCell {
         userNameLabel.text = post.user.displayName
         descriptionLabel.text = post.description
     }
+    
+    func setBackgroundOpacity(with alpha: Float) {
+        wrapperView.layer.opacity = alpha
+    }
         
     private func setupLayout(with type: TypeEnum) {
         switch type {
@@ -140,8 +146,14 @@ final class PostCell: UICollectionViewCell {
             }
         }
         
+        contentView.addSubview(wrapperView)
+        
+        wrapperView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         [likeButton, likeLabel, followButton, followLabel, shareButton, userImgageView, userNameLabel, descriptionLabel].forEach { view in
-            contentView.addSubview(view)
+            wrapperView.addSubview(view)
         }
         
         likeButton.snp.makeConstraints { make in
