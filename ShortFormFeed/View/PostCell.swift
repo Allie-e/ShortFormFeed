@@ -6,9 +6,9 @@
 //
 
 import UIKit
+import AVKit
 
 import SnapKit
-import AVKit
 
 final class PostCell: UICollectionViewCell {
     // MARK: - Properties

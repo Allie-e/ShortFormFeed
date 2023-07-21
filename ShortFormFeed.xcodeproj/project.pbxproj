@@ -12,7 +12,7 @@
 		F91E62379B0EA5B3B27DC227 /* Pods_ShortFormFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9375A36307C0FC24C8B474 /* Pods_ShortFormFeed.framework */; };
 		FBA66D462A5D84A200542D2D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D452A5D84A200542D2D /* AppDelegate.swift */; };
 		FBA66D482A5D84A200542D2D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D472A5D84A200542D2D /* SceneDelegate.swift */; };
-		FBA66D4A2A5D84A200542D2D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D492A5D84A200542D2D /* ViewController.swift */; };
+		FBA66D4A2A5D84A200542D2D /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D492A5D84A200542D2D /* FeedViewController.swift */; };
 		FBA66D4F2A5D84A300542D2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBA66D4E2A5D84A300542D2D /* Assets.xcassets */; };
 		FBA66D522A5D84A300542D2D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBA66D502A5D84A300542D2D /* LaunchScreen.storyboard */; };
 		FBA66D5D2A5D84A300542D2D /* ShortFormFeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D5C2A5D84A300542D2D /* ShortFormFeedTests.swift */; };
@@ -64,7 +64,7 @@
 		FBA66D422A5D84A200542D2D /* ShortFormFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShortFormFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBA66D452A5D84A200542D2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBA66D472A5D84A200542D2D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		FBA66D492A5D84A200542D2D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FBA66D492A5D84A200542D2D /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		FBA66D4E2A5D84A300542D2D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FBA66D512A5D84A300542D2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FBA66D532A5D84A300542D2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -239,7 +239,7 @@
 		FBA66D852A618EB000542D2D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FBA66D492A5D84A200542D2D /* ViewController.swift */,
+				FBA66D492A5D84A200542D2D /* FeedViewController.swift */,
 				FBA66D882A62C63B00542D2D /* PostCell.swift */,
 				FBA66D8A2A62DCDA00542D2D /* VideoPlayerView.swift */,
 			);
@@ -514,7 +514,7 @@
 				FBA66D9C2A69716700542D2D /* Observable+extension.swift in Sources */,
 				FBA66D952A64291900542D2D /* PostViewModel.swift in Sources */,
 				FBA66D902A641C9D00542D2D /* CellReusable.swift in Sources */,
-				FBA66D4A2A5D84A200542D2D /* ViewController.swift in Sources */,
+				FBA66D4A2A5D84A200542D2D /* FeedViewController.swift in Sources */,
 				FBA66D462A5D84A200542D2D /* AppDelegate.swift in Sources */,
 				FBA66D762A5FF6C700542D2D /* EndPoint.swift in Sources */,
 				FBA66D7C2A618BD300542D2D /* Feed.swift in Sources */,

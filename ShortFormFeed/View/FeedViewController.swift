@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FeedViewController.swift
 //  ShortFormFeed
 //
 //  Created by Allie on 2023/07/11.
@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-final class ViewController: UIViewController {
+final class FeedViewController: UIViewController {
     private typealias DiffableDataSource = UICollectionViewDiffableDataSource<Section, FeedItem>
     
     private enum Section {

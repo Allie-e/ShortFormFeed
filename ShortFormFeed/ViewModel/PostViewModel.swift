@@ -5,8 +5,6 @@
 //  Created by Allie on 2023/07/16.
 //
 
-import UIKit
-
 import RxSwift
 
 final class PostViewModel: ViewModelDescribing {
