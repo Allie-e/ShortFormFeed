@@ -14,7 +14,16 @@ final class PostCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = String(describing: PostCell.self)
     var videoView: VideoPlayerView?
+    
     let wrapperView = UIView()
+    let dimView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.layer.opacity = 0.6
+        view.isHidden = true
+        
+        return view
+    }()
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -96,6 +105,7 @@ final class PostCell: UICollectionViewCell {
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .white
         label.numberOfLines = 2
+        label.isUserInteractionEnabled = true
         
         return label
     }()
@@ -103,14 +113,21 @@ final class PostCell: UICollectionViewCell {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
+        addGesture()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        descriptionLabel.numberOfLines = 2
+    }
+    
     // MARK: - Methods
     func setupCell(with post: Post) {
+        // foreach 뷰를 여러개 만들어서 스크롤뷰에 넣자
         switch post.contents[0].type {
         case .video:
             self.videoView = VideoPlayerView(frame: .zero, urlString: post.contents[0].contentURL)
@@ -130,6 +147,25 @@ final class PostCell: UICollectionViewCell {
     func setBackgroundOpacity(with alpha: Float) {
         wrapperView.layer.opacity = alpha
     }
+    
+    func addGesture() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(showLabel))
+        descriptionLabel.addGestureRecognizer(gesture)
+    }
+    
+    @objc func showLabel() {
+        descriptionLabel.numberOfLines = 0
+        let labelHeight = descriptionLabel.frame.height
+        let labelIntrinsicHeight = descriptionLabel.intrinsicContentSize.height
+        
+        if labelHeight < labelIntrinsicHeight {
+            descriptionLabel.numberOfLines = 0
+            dimView.isHidden = false
+        } else {
+            descriptionLabel.numberOfLines = 2
+            dimView.isHidden = true
+        }
+    }
         
     private func setupLayout(with type: TypeEnum) {
         switch type {
@@ -144,6 +180,12 @@ final class PostCell: UICollectionViewCell {
             imageView.snp.makeConstraints { make in
                 make.edges.equalToSuperview()
             }
+        }
+        
+        contentView.addSubview(dimView)
+        
+        dimView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
         contentView.addSubview(wrapperView)
@@ -181,7 +223,7 @@ final class PostCell: UICollectionViewCell {
         }
         
         shareButton.snp.makeConstraints { make in
-            make.bottom.equalTo(userImgageView.snp.top).offset(-10)
+            make.bottom.equalToSuperview().offset(-150)
             make.trailing.equalToSuperview().offset(-20)
             make.width.height.equalTo(35)
         }
@@ -201,7 +243,7 @@ final class PostCell: UICollectionViewCell {
         descriptionLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().offset(-20)
             make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-40)
+            make.trailing.equalTo(shareButton.snp.leading).offset(-10)
         }
     }
 }
