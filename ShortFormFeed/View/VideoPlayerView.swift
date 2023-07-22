@@ -13,11 +13,10 @@ import RxCocoa
 
 final class VideoPlayerView: UIView {
     // MARK: - Properties
-    private let disposeBag = DisposeBag()
-    
     var playerLayer: AVPlayerLayer?
     var playerLooper: AVPlayerLooper?
     var queuePlayer: AVQueuePlayer?
+    private let disposeBag = DisposeBag()
 
     private let mainView = UIView()
     private let soundButton: UIButton = {
@@ -39,9 +38,12 @@ final class VideoPlayerView: UIView {
         super.init(frame: frame)
         setupLayout()
         mainView.backgroundColor = .clear
-        soundButton.rx.tap.asDriver().drive(with: self, onNext: { owner, _ in
+        soundButton.rx.tap
+            .asDriver()
+            .drive(with: self, onNext: { owner, _ in
             owner.manageSound()
-        }).disposed(by: disposeBag)
+        })
+        .disposed(by: disposeBag)
     }
 
     @available(*, unavailable)
@@ -61,7 +63,7 @@ final class VideoPlayerView: UIView {
         queuePlayer = nil
     }
     
-    func setVideo(urlString: String) {
+    func setVideo(with urlString: String) {
         guard let videoURL = URL(string: urlString) else { return }
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }

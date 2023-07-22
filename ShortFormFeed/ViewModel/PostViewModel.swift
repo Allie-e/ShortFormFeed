@@ -37,7 +37,7 @@ final class PostViewModel: ViewModelDescribing {
             }
             .share()
         
-        let initPost = postResult
+        let initialPost = postResult
             .withUnretained(self)
             .map { owner, result -> [Post]? in
                 switch result {
@@ -100,7 +100,7 @@ final class PostViewModel: ViewModelDescribing {
             .filterNil()
             .share()
         
-        let post = Observable.merge(initPost, paginationPost)
+        let post = Observable.merge(initialPost, paginationPost)
         let error = Observable.merge(requestError, paginationError)
         
         return Output(

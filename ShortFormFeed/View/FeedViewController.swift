@@ -27,7 +27,6 @@ final class FeedViewController: UIViewController {
     private let disposeBag: DisposeBag = .init()
     private var dataSource: DiffableDataSource?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, FeedItem>()
-    private var nowPage = 0
     
     // MARK: - UI
     private let postCollectionView: UICollectionView = {

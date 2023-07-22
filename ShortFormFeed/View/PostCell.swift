@@ -17,7 +17,6 @@ final class PostCell: UICollectionViewCell {
     
     // MARK: - Properties
     private var contentDataSource: UICollectionViewDiffableDataSource<Section, Content>?
-    weak var contentStackViewWidth: Constraint?
     
     // MARK: - UI
     private let contentCollectionView: UICollectionView = {
@@ -229,7 +228,6 @@ final class PostCell: UICollectionViewCell {
         }
         
         contentView.addSubview(dimView)
-        
         dimView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -305,12 +303,14 @@ final class PostCell: UICollectionViewCell {
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension PostCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension PostCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? ContentCell else { return }

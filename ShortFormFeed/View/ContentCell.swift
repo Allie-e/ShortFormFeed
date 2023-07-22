@@ -48,7 +48,7 @@ final class ContentCell: UICollectionViewCell {
         case .video:
             videoView.isHidden = false
             imageView.isHidden = true
-            videoView.setVideo(urlString: content.contentURL)
+            videoView.setVideo(with: content.contentURL)
         }
     }
     
