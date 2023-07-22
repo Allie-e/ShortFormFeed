@@ -10,6 +10,7 @@ import Foundation
 struct Content: Decodable, Hashable {
     let contentURL: String
     let type: TypeEnum
+    let uuid = UUID()
 
     enum CodingKeys: String, CodingKey {
         case contentURL = "content_url"
