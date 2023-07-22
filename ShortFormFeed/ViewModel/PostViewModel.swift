@@ -8,20 +8,20 @@
 import RxSwift
 
 final class PostViewModel: ViewModelDescribing {
-    private let feedAPI = FeedAPI()
-    private var pageIndex = 0
-    private var posts: [Post]? = []
-    
     struct Input {
         let viewDidLoadObservable: Observable<Void>
         let refreshObservable: Observable<Void>
-        let pagenationObservable: Observable<Void>
+        let paginationObservable: Observable<Void>
     }
     
     struct Output {
         let loadPostObservable: Observable<[Post]>
         let errorObservable: Observable<Error>
     }
+    
+    private let feedAPI = FeedAPI()
+    private var pageIndex = 0
+    private var posts: [Post]? = []
     
     func transform(_ input: Input) -> Output {
         let postResult = Observable.merge(
@@ -30,7 +30,6 @@ final class PostViewModel: ViewModelDescribing {
         )
             .withUnretained(self)
             .flatMap { (owner, _) -> Observable<Result<[Post]?, Error>> in
-                // 페이지네이션 실패하면 다시 처음 페이지 보여줘야하니까..
                 owner.pageIndex = 0
                 return owner.fetchPost(with: owner.pageIndex).asResult()
             }
@@ -62,14 +61,14 @@ final class PostViewModel: ViewModelDescribing {
             }
             .filterNil()
             .share()
-        let pagenationPostResult = input.pagenationObservable
+        let paginationPostResult = input.paginationObservable
             .withUnretained(self)
             .flatMap { (owner, _) -> Observable<Result<[Post]?, Error>> in
                 return owner.fetchPost(with: owner.pageIndex).asResult()
             }
             .share()
         
-        let pagenationPost = pagenationPostResult
+        let paginationPost = paginationPostResult
             .withUnretained(self)
             .map { owner, result -> [Post]? in
                 switch result {
@@ -87,24 +86,24 @@ final class PostViewModel: ViewModelDescribing {
             .filterNil()
             .share()
         
-        let pagenationError = postResult
+        let paginationError = postResult
             .map { result -> Error? in
                 switch result {
                 case .success:
                     return nil
                 case .failure:
-                    return NetworkError.pagenationError
+                    return NetworkError.paginationError
                 }
             }
             .filterNil()
             .share()
         
-        let post = Observable.merge(initPost, pagenationPost)
-        let error = Observable.merge(requestError, pagenationError)
+        let post = Observable.merge(initPost, paginationPost)
+        let error = Observable.merge(requestError, paginationError)
         
         return Output(
             loadPostObservable: post,
-            errorObservable: error // error
+            errorObservable: error
         )
     }
     

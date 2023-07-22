@@ -58,7 +58,7 @@ final class FeedViewController: UIViewController {
     
     // MARK: - Methods
     private func bind() {
-        let pagenationObservable = collectionView.rx.didEndDisplayingCell
+        let paginationObservable = collectionView.rx.didEndDisplayingCell
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .map { owner, args -> Void? in // args.0 == cell, args.1 == indexPath
@@ -78,7 +78,7 @@ final class FeedViewController: UIViewController {
         let input = PostViewModel.Input(
             viewDidLoadObservable: .just(Void()),
             refreshObservable: refreshButton.rx.tap.asObservable(),
-            pagenationObservable: pagenationObservable
+            paginationObservable: paginationObservable
         )
         let output = viewModel.transform(input)
         
@@ -96,7 +96,7 @@ final class FeedViewController: UIViewController {
             .withUnretained(self)
             .subscribe(onNext: { (owner, error) in
                 if let error = error as? NetworkError,
-                   error == .pagenationError
+                   error == .paginationError
                 {
                     owner.showToast(message: "다음 피드를 불러올 수 없습니다.\n 잠시후 다시 시도해주세요.")
                 } else {
