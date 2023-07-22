@@ -98,7 +98,7 @@ final class FeedViewController: UIViewController {
                 if let error = error as? NetworkError,
                    error == .pagenationError
                 {
-                    owner.showToast(message: "다음 피드를 불러올 수 없습니다./n 잠시후 다시 시도해주세요.", font: .preferredFont(forTextStyle: .body)) // toast
+                    owner.showToast(message: "다음 피드를 불러올 수 없습니다.\n 잠시후 다시 시도해주세요.")
                 } else {
                     owner.refreshButton.isHidden = false
                 }
@@ -110,7 +110,6 @@ final class FeedViewController: UIViewController {
             .withUnretained(self)
             .subscribe(onNext: { owner, offset in
                 let cellHeight = UIScreen.main.bounds.height
-                // print(offset.y / cellHeight)
                 let row = Int(offset.y / cellHeight)
                 let alpha = (offset.y / cellHeight) - CGFloat(row)
                 let cell = owner.collectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? PostCell
@@ -146,22 +145,33 @@ final class FeedViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    func showToast(message : String, font: UIFont) {
-        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 150, height: 35))
+    func showToast(message : String) {
+        let toastLabel = UILabel(frame: CGRect(
+            x: self.view.frame.size.width/2 - 150,
+            y: self.view.frame.size.height - 100,
+            width: 300,
+            height: 50)
+        )
         toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         toastLabel.textColor = UIColor.white
-        toastLabel.font = font
-        toastLabel.textAlignment = .center;
+        toastLabel.numberOfLines = 2
+        toastLabel.font = UIFont.systemFont(ofSize: 14.0)
+        toastLabel.textAlignment = .center
         toastLabel.text = message
         toastLabel.alpha = 1.0
-        toastLabel.layer.cornerRadius = 10;
+        toastLabel.layer.cornerRadius = 10
         toastLabel.clipsToBounds  =  true
         self.view.addSubview(toastLabel)
-        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
-            toastLabel.alpha = 0.0
-        }, completion: {(isCompleted) in
-            toastLabel.removeFromSuperview()
-        })
+        
+        UIView.animate(
+            withDuration: 4.0,
+            delay: 0.1,
+            options: .curveEaseOut,
+            animations: {
+                toastLabel.alpha = 0.0
+            }, completion: {(isCompleted) in
+                toastLabel.removeFromSuperview()
+            })
     }
     
     private func setupCollectionView() {
@@ -202,27 +212,8 @@ final class FeedViewController: UIViewController {
         guard let posts = posts else { return }
         let postItems = posts.map { FeedItem.post($0) }
         snapshot = NSDiffableDataSourceSnapshot<Section, FeedItem>()
-        
         snapshot.appendSections([.main])
         snapshot.appendItems(postItems)
-        
         dataSource?.apply(snapshot)
-    }
-    
-    private func startLoop() {
-        let _ = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
-            self.moveNextPage()
-        }
-    }
-    
-    private func moveNextPage() {
-        let itemCount = collectionView.numberOfItems(inSection: 0)
-        
-        nowPage += 1
-        if nowPage >= itemCount {
-            nowPage = 0
-        }
-        
-        collectionView.scrollToItem(at: IndexPath(item: nowPage, section: 0), at: .centeredVertically, animated: true)
     }
 }
