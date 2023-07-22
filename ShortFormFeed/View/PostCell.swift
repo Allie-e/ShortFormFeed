@@ -282,8 +282,8 @@ final class PostCell: UICollectionViewCell {
         }
         
         bottomStackView.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(32)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(60)
         }
     }
     
