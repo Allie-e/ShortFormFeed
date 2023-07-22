@@ -33,6 +33,7 @@
 		FBA66D982A642CA100542D2D /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D972A642CA100542D2D /* UIImageView+extension.swift */; };
 		FBA66D9A2A6849F300542D2D /* Int+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D992A6849F300542D2D /* Int+extension.swift */; };
 		FBA66D9C2A69716700542D2D /* Observable+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D9B2A69716700542D2D /* Observable+extension.swift */; };
+		FBA66D9E2A6BE86300542D2D /* ContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA66D9D2A6BE86300542D2D /* ContentCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		FBA66D972A642CA100542D2D /* UIImageView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 		FBA66D992A6849F300542D2D /* Int+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extension.swift"; sourceTree = "<group>"; };
 		FBA66D9B2A69716700542D2D /* Observable+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+extension.swift"; sourceTree = "<group>"; };
+		FBA66D9D2A6BE86300542D2D /* ContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCell.swift; sourceTree = "<group>"; };
 		FDB4A30096BDAC8DB7CB1EF7 /* Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; path = "Target Support Files/Pods-ShortFormFeed-ShortFormFeedUITests/Pods-ShortFormFeed-ShortFormFeedUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -242,6 +244,7 @@
 				FBA66D492A5D84A200542D2D /* FeedViewController.swift */,
 				FBA66D882A62C63B00542D2D /* PostCell.swift */,
 				FBA66D8A2A62DCDA00542D2D /* VideoPlayerView.swift */,
+				FBA66D9D2A6BE86300542D2D /* ContentCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				FBA66D7C2A618BD300542D2D /* Feed.swift in Sources */,
 				FBA66D872A618F4500542D2D /* FeedAPI.swift in Sources */,
 				FBA66D922A641CDB00542D2D /* ViewModelDescribing.swift in Sources */,
+				FBA66D9E2A6BE86300542D2D /* ContentCell.swift in Sources */,
 				FBA66D482A5D84A200542D2D /* SceneDelegate.swift in Sources */,
 				FBA66D782A5FFB2B00542D2D /* NetworkError.swift in Sources */,
 				FBA66D9A2A6849F300542D2D /* Int+extension.swift in Sources */,

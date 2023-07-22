@@ -8,13 +8,18 @@
 import UIKit
 import AVKit
 
+import RxSwift
+import RxCocoa
+
 final class VideoPlayerView: UIView {
     // MARK: - Properties
+    private let disposeBag = DisposeBag()
+    
     var playerLayer: AVPlayerLayer?
     var playerLooper: AVPlayerLooper?
     var queuePlayer: AVQueuePlayer?
-    var urlString: String
 
+    private let mainView = UIView()
     private let soundButton: UIButton = {
         let button = UIButton()
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
@@ -22,31 +27,24 @@ final class VideoPlayerView: UIView {
         button.setImage(image, for: .normal)
         button.tintColor = .white
         button.imageView?.contentMode = .scaleAspectFit
+        button.layer.masksToBounds = false
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.1
         
         return button
     }()
     
     // MARK: - Initializer
-    init(frame: CGRect, urlString: String) {
-        self.urlString = urlString
+    override init(frame: CGRect) {
         super.init(frame: frame)
-
-        let videoURL = URL(string: urlString)!
-        let playItem = AVPlayerItem(url: videoURL)
-
-        self.queuePlayer = AVQueuePlayer(playerItem: playItem)
-        playerLayer = AVPlayerLayer()
-
-        playerLayer?.player = queuePlayer
-        playerLayer?.videoGravity = .resizeAspectFill
-
-        self.layer.addSublayer(playerLayer!)
-
-        playerLooper = AVPlayerLooper(player: queuePlayer!, templateItem: playItem)
         setupLayout()
-        queuePlayer?.play()
+        mainView.backgroundColor = .clear
+        soundButton.rx.tap.asDriver().drive(with: self, onNext: { owner, _ in
+            owner.manageSound()
+        }).disposed(by: disposeBag)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -61,6 +59,25 @@ final class VideoPlayerView: UIView {
         queuePlayer?.pause()
         queuePlayer?.removeAllItems()
         queuePlayer = nil
+    }
+    
+    func setVideo(urlString: String) {
+        guard let videoURL = URL(string: urlString) else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            let playItem = AVPlayerItem(url: videoURL)
+            
+            self.queuePlayer = AVQueuePlayer(playerItem: playItem)
+            self.playerLayer = AVPlayerLayer()
+            
+            self.playerLayer?.frame = self.mainView.bounds
+            self.playerLayer?.player = self.queuePlayer
+            self.playerLayer?.videoGravity = .resizeAspectFill
+            
+            self.mainView.layer.addSublayer(self.playerLayer!)
+            
+            self.playerLooper = AVPlayerLooper(player: self.queuePlayer!, templateItem: playItem)
+        }
     }
     
     func manageSound() {
@@ -78,7 +95,12 @@ final class VideoPlayerView: UIView {
     }
     
     private func setupLayout() {
+        addSubview(mainView)
         addSubview(soundButton)
+        
+        mainView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
         soundButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(50)

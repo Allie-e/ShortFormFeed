@@ -19,10 +19,12 @@ final class PostViewModel: ViewModelDescribing {
         let errorObservable: Observable<Error>
     }
     
+    // MARK: - Properties
     private let feedAPI = FeedAPI()
     private var pageIndex = 0
     private var posts: [Post]? = []
     
+    // MARK: - Methods
     func transform(_ input: Input) -> Output {
         let postResult = Observable.merge(
             input.viewDidLoadObservable,

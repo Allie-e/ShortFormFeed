@@ -29,12 +29,20 @@ final class FeedViewController: UIViewController {
     private var snapshot = NSDiffableDataSourceSnapshot<Section, FeedItem>()
     private var nowPage = 0
     
+    // MARK: - UI
     private let postCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        layout.itemSize = CGSize(
+            width: UIScreen.main.bounds.width,
+            height: UIScreen.main.bounds.height
+        )
+        
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        )
         collectionView.decelerationRate = .fast
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.isPagingEnabled = true
@@ -63,6 +71,7 @@ final class FeedViewController: UIViewController {
         setupLayout()
         configureDataSource()
         bind()
+        bindCollectionView()
     }
     
     // MARK: - Methods
@@ -70,13 +79,9 @@ final class FeedViewController: UIViewController {
         let paginationObservable = postCollectionView.rx.didEndDisplayingCell
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
-            .map { owner, args -> Void? in // args.0 == cell, args.1 == indexPath
-                let currentCellIndex = CGFloat(args.at.row + 1) // 0부터 시작하니까 1 더해줌 (이전 셀)
-                let cellHeight = args.cell.frame.height // 셀 높이
-                
-                // 전체 500 없어진거 400
-                // contentsOffset = 400
-                // 400을 구하는 과정
+            .map { owner, args -> Void? in
+                let currentCellIndex = CGFloat(args.at.row + 1)
+                let cellHeight = args.cell.frame.height
                 if (owner.postCollectionView.contentSize.height - owner.postCollectionView.frame.height) == currentCellIndex * cellHeight {
                     return Void()
                 }
@@ -113,7 +118,9 @@ final class FeedViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
+    }
+    
+    private func bindCollectionView() {
         postCollectionView.rx.contentOffset
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
@@ -130,7 +137,7 @@ final class FeedViewController: UIViewController {
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { cell, indexPath in
                 if let cell = cell as? PostCell {
-                    cell.videoView?.queuePlayer?.play()
+                    cell.manageVideo(isPlay: true)
                 }
             })
             .disposed(by: disposeBag)
@@ -139,17 +146,8 @@ final class FeedViewController: UIViewController {
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { cell, indexPath in
                 if let cell = cell as? PostCell {
-                    cell.videoView?.queuePlayer?.pause()
+                    cell.manageVideo(isPlay: false)
                 }
-            })
-            .disposed(by: disposeBag)
-        
-        postCollectionView.rx.itemSelected
-            .observe(on: MainScheduler.asyncInstance)
-            .withUnretained(self)
-            .subscribe(onNext: { owner, indexPath in
-                guard let cell = owner.postCollectionView.cellForItem(at: indexPath) as? PostCell else { return }
-                cell.videoView?.manageSound()
             })
             .disposed(by: disposeBag)
     }
