@@ -23,42 +23,51 @@ final class FeedViewController: UIViewController {
     }
     
     // MARK: - Properties
-    let viewModel = PostViewModel()
+    private let viewModel = PostViewModel()
     private let disposeBag: DisposeBag = .init()
     private var dataSource: DiffableDataSource?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, FeedItem>()
     private var nowPage = 0
     
-    let collectionView: UICollectionView = {
+    private let postCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.decelerationRate = .fast
+        collectionView.contentInsetAdjustmentBehavior = .never
+        collectionView.isPagingEnabled = true
         
         return collectionView
     }()
     
-    private let refreshButton: UIButton = {
+    private let retryButton: UIButton = {
         let button = UIButton()
-        button.setTitle("새로고침", for: .normal)
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 20)
+        let image = UIImage(systemName: "arrow.clockwise", withConfiguration: imageConfig)
+        button.setTitle(" 다시시도", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.setImage(image, for: .normal)
+        button.tintColor = .white
+        button.backgroundColor = .darkGray
+        button.layer.cornerRadius = 20
+        button.imageView?.contentMode = .scaleAspectFit
         button.isHidden = true
-        button.backgroundColor = .blue
         
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionView()
+        setupLayout()
         configureDataSource()
         bind()
     }
     
     // MARK: - Methods
     private func bind() {
-        let paginationObservable = collectionView.rx.didEndDisplayingCell
+        let paginationObservable = postCollectionView.rx.didEndDisplayingCell
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .map { owner, args -> Void? in // args.0 == cell, args.1 == indexPath
@@ -68,7 +77,7 @@ final class FeedViewController: UIViewController {
                 // 전체 500 없어진거 400
                 // contentsOffset = 400
                 // 400을 구하는 과정
-                if (owner.collectionView.contentSize.height - owner.collectionView.frame.height) == currentCellIndex * cellHeight {
+                if (owner.postCollectionView.contentSize.height - owner.postCollectionView.frame.height) == currentCellIndex * cellHeight {
                     return Void()
                 }
                 return nil
@@ -77,7 +86,7 @@ final class FeedViewController: UIViewController {
         
         let input = PostViewModel.Input(
             viewDidLoadObservable: .just(Void()),
-            refreshObservable: refreshButton.rx.tap.asObservable(),
+            refreshObservable: retryButton.rx.tap.asObservable(),
             paginationObservable: paginationObservable
         )
         let output = viewModel.transform(input)
@@ -87,7 +96,7 @@ final class FeedViewController: UIViewController {
             .withUnretained(self)
             .subscribe(onNext: { owner, posts in
                 owner.applySnapshot(with: posts)
-                owner.refreshButton.isHidden = true
+                owner.retryButton.isHidden = true
             })
             .disposed(by: disposeBag)
         
@@ -100,24 +109,24 @@ final class FeedViewController: UIViewController {
                 {
                     owner.showToast(message: "다음 피드를 불러올 수 없습니다.\n 잠시후 다시 시도해주세요.")
                 } else {
-                    owner.refreshButton.isHidden = false
+                    owner.retryButton.isHidden = false
                 }
             })
             .disposed(by: disposeBag)
         
-        collectionView.rx.contentOffset
+        postCollectionView.rx.contentOffset
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .subscribe(onNext: { owner, offset in
                 let cellHeight = UIScreen.main.bounds.height
                 let row = Int(offset.y / cellHeight)
                 let alpha = (offset.y / cellHeight) - CGFloat(row)
-                let cell = owner.collectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? PostCell
+                let cell = owner.postCollectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? PostCell
                 cell?.setBackgroundOpacity(with: Float(1 - alpha))
             })
             .disposed(by: disposeBag)
         
-        collectionView.rx.willDisplayCell
+        postCollectionView.rx.willDisplayCell
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { cell, indexPath in
                 if let cell = cell as? PostCell {
@@ -126,7 +135,7 @@ final class FeedViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        collectionView.rx.didEndDisplayingCell
+        postCollectionView.rx.didEndDisplayingCell
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { cell, indexPath in
                 if let cell = cell as? PostCell {
@@ -135,11 +144,11 @@ final class FeedViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        collectionView.rx.itemSelected
+        postCollectionView.rx.itemSelected
             .observe(on: MainScheduler.asyncInstance)
             .withUnretained(self)
             .subscribe(onNext: { owner, indexPath in
-                guard let cell = owner.collectionView.cellForItem(at: indexPath) as? PostCell else { return }
+                guard let cell = owner.postCollectionView.cellForItem(at: indexPath) as? PostCell else { return }
                 cell.videoView?.manageSound()
             })
             .disposed(by: disposeBag)
@@ -174,28 +183,25 @@ final class FeedViewController: UIViewController {
             })
     }
     
-    private func setupCollectionView() {
-        self.view.addSubview(collectionView)
+    private func setupLayout() {
+        self.view.addSubview(postCollectionView)
         
-        collectionView.snp.makeConstraints { make in
+        postCollectionView.snp.makeConstraints { make in
             make.top.bottom.leading.trailing.equalToSuperview()
         }
         
-        collectionView.decelerationRate = .fast
-        collectionView.contentInsetAdjustmentBehavior = .never
-        collectionView.isPagingEnabled = true
-        
-        self.view.addSubview(refreshButton)
-        refreshButton.snp.makeConstraints { make in
+        self.view.addSubview(retryButton)
+        retryButton.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.height.equalTo(100)
+            make.height.equalTo(50)
+            make.width.equalTo(120)
         }
     }
     
     private func configureDataSource() {
-        collectionView.register(PostCell.self)
+        postCollectionView.register(PostCell.self)
         
-        dataSource = DiffableDataSource(collectionView: collectionView, cellProvider: { [weak self] collectionView, indexPath, item in
+        dataSource = DiffableDataSource(collectionView: postCollectionView, cellProvider: { [weak self] collectionView, indexPath, item in
             switch item {
             case .post(let post):
                 let cell = collectionView.dequeueReusableCell(PostCell.self, for: indexPath)
@@ -205,7 +211,7 @@ final class FeedViewController: UIViewController {
             }
         })
         
-        collectionView.dataSource = dataSource
+        postCollectionView.dataSource = dataSource
     }
     
     private func applySnapshot(with posts: [Post]?) {
