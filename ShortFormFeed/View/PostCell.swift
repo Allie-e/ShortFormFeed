@@ -12,11 +12,10 @@ import SnapKit
 
 final class PostCell: UICollectionViewCell {
     // MARK: - Properties
-    static let identifier = String(describing: PostCell.self)
+    weak var contentStackViewWidth: Constraint?
     var videoView: VideoPlayerView?
-    
-    let wrapperView = UIView()
-    let dimView: UIView = {
+    private let wrapperView = UIView()
+    private let dimView: UIView = {
         let view = UIView()
         view.backgroundColor = .black
         view.layer.opacity = 0.6
@@ -72,7 +71,7 @@ final class PostCell: UICollectionViewCell {
         return label
     }()
     
-    private let shareButton: UIButton = {
+    private let moreButton: UIButton = {
         let button = UIButton()
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
         let image = UIImage(systemName: "ellipsis", withConfiguration: imageConfig)
@@ -100,6 +99,14 @@ final class PostCell: UICollectionViewCell {
         return label
     }()
     
+    private let bottomStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        
+        return stackView
+    }()
+    
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
@@ -108,6 +115,15 @@ final class PostCell: UICollectionViewCell {
         label.isUserInteractionEnabled = true
         
         return label
+    }()
+    
+    private let pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.currentPage = 0
+        pageControl.pageIndicatorTintColor = UIColor.lightGray
+        pageControl.currentPageIndicatorTintColor = UIColor.white
+        
+        return pageControl
     }()
     
     // MARK: - Initializer
@@ -128,14 +144,9 @@ final class PostCell: UICollectionViewCell {
     // MARK: - Methods
     func setupCell(with post: Post) {
         // foreach 뷰를 여러개 만들어서 스크롤뷰에 넣자
-        switch post.contents[0].type {
-        case .video:
-            self.videoView = VideoPlayerView(frame: .zero, urlString: post.contents[0].contentURL)
-            setupLayout(with: .video)
-        case .image:
-            self.imageView.setImage(with: post.contents[0].contentURL)
-            setupLayout(with: .image)
-        }
+        setContentsView(with: post.contents[0])
+        setupLayout()
+        setPageController(contentsCount: post.contents.count)
         
         likeLabel.text = post.likeCount.toK()
         followLabel.text = post.user.followCount.toK()
@@ -146,6 +157,37 @@ final class PostCell: UICollectionViewCell {
     
     func setBackgroundOpacity(with alpha: Float) {
         wrapperView.layer.opacity = alpha
+    }
+    
+    private func setPageController(contentsCount: Int) {
+        pageControl.isHidden = contentsCount == 1
+        pageControl.numberOfPages = contentsCount
+    }
+    
+    private func setContentsView(with content: Content) {
+        switch content.type {
+        case .video:
+            videoView = VideoPlayerView(frame: .zero, urlString: content.contentURL)
+            guard let videoView = videoView else { return }
+            contentView.addSubview(videoView)
+            videoView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        case .image:
+            imageView.setImage(with: content.contentURL)
+            contentView.addSubview(imageView)
+            imageView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        }
+    }
+    
+    private func createImageView(with url: String, frame: CGRect) -> UIImageView {
+        let imageView = UIImageView(frame: frame)
+        imageView.contentMode = .scaleAspectFill
+        imageView.setImage(with: url)
+        
+        return imageView
     }
     
     func addGesture() {
@@ -166,22 +208,8 @@ final class PostCell: UICollectionViewCell {
             dimView.isHidden = true
         }
     }
-        
-    private func setupLayout(with type: TypeEnum) {
-        switch type {
-        case .video:
-            guard let videoView = videoView else { return }
-            contentView.addSubview(videoView)
-            videoView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-        case .image:
-            contentView.addSubview(imageView)
-            imageView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-        }
-        
+    
+    private func setupLayout() {
         contentView.addSubview(dimView)
         
         dimView.snp.makeConstraints { make in
@@ -194,35 +222,38 @@ final class PostCell: UICollectionViewCell {
             make.edges.equalToSuperview()
         }
         
-        [likeButton, likeLabel, followButton, followLabel, shareButton, userImgageView, userNameLabel, descriptionLabel].forEach { view in
+        [likeButton, likeLabel, followButton, followLabel, moreButton, userImgageView, userNameLabel, bottomStackView].forEach { view in
             wrapperView.addSubview(view)
         }
+        
+        bottomStackView.addArrangedSubview(descriptionLabel)
+        bottomStackView.addArrangedSubview(pageControl)
         
         likeButton.snp.makeConstraints { make in
             make.bottom.equalTo(followButton.snp.top).offset(-40)
             make.width.height.equalTo(35)
-            make.centerX.equalTo(shareButton)
+            make.centerX.equalTo(moreButton)
         }
         
         likeLabel.snp.makeConstraints { make in
             make.top.equalTo(likeButton.snp.bottom)
             make.trailing.equalTo(likeButton.snp.trailing)
-            make.centerX.equalTo(shareButton)
+            make.centerX.equalTo(moreButton)
         }
         
         followButton.snp.makeConstraints { make in
-            make.bottom.equalTo(shareButton.snp.top).offset(-40)
+            make.bottom.equalTo(moreButton.snp.top).offset(-40)
             make.width.height.equalTo(35)
-            make.centerX.equalTo(shareButton)
+            make.centerX.equalTo(moreButton)
         }
         
         followLabel.snp.makeConstraints { make in
             make.top.equalTo(followButton.snp.bottom)
             make.trailing.equalTo(followButton.snp.trailing)
-            make.centerX.equalTo(shareButton)
+            make.centerX.equalTo(moreButton)
         }
         
-        shareButton.snp.makeConstraints { make in
+        moreButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().offset(-150)
             make.trailing.equalToSuperview().offset(-20)
             make.width.height.equalTo(35)
@@ -235,15 +266,14 @@ final class PostCell: UICollectionViewCell {
         }
         
         userNameLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(descriptionLabel.snp.top).offset(-10)
+            make.bottom.equalTo(bottomStackView.snp.top).offset(-10)
             make.leading.equalTo(userImgageView.snp.trailing).offset(10)
             make.centerY.equalTo(userImgageView.snp.centerY)
         }
         
-        descriptionLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().offset(-20)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalTo(shareButton.snp.leading).offset(-10)
+        bottomStackView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(32)
+            make.leading.trailing.equalToSuperview().inset(20)
         }
     }
 }
