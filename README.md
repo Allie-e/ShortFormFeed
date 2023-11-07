@@ -14,7 +14,7 @@
 ### 구현 화면
 |사진|더보기|영상|
 |---|---|---|
-|<img src="https://github.com/Allie-e/ShortFormFeed/assets/83864058/2685e510-5dbd-4e89-9a8d-cb8f4d6d580d" width="300">|<img src="https://github.com/Allie-e/ShortFormFeed/assets/83864058/c9aafd17-baa0-498a-b565-cd9c0f587eb4" width="300">|<img src="https://github.com/Allie-e/ShortFormFeed/assets/83864058/5cb99456-eba7-40a4-b530-f8dcb7cff48b" width="300">|
+|<img src="https://github.com/Allie-e/ShortFormFeed/assets/83864058/e8aa0a49-38b4-4d4e-a477-5e4f867ce22a" width="300">|<img src="https://github.com/Allie-e/ShortFormFeed/assets/83864058/dd1d9152-2370-4693-b0b9-7d1347f7b146" width="300">|<img src="https://github.com/Allie-e/ShortFormFeed/assets/83864058/19bec4eb-6be5-4b00-ba6a-6311088f252f" width="300">|
 
 |동작 화면|
 |:---:|
